@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
@@ -33,23 +34,22 @@ const AddProduct = () => {
       deadline,
     };
     console.log(jobObj);
-    // try {
-    //   const response = await fetch("http://localhost:5000/jobs", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(jobObj),
-    //   });
-    //   const result = await response.json();
+    try {
+      const response = await fetch("http://localhost:5000/jobs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jobObj),
+      });
+      const result = await response.json();
 
-    //   if (result.acknowledged) {
-    //     // swal("done", "Job Posted Successfully", "success");
-    //     alert("success");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+      if (result.acknowledged) {
+        Swal.fire("Jobs Add", "Successfully Jobs Add", "success");
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     form.reset("");
   };

@@ -122,7 +122,7 @@ const AddProduct = () => {
                 <option selected>Choose Job Category</option>
                 <option value="Web Development">Web Development</option>
                 <option value="Digital Marketing">Digital Marketing</option>
-                <option value="Digital Marketing">Graphics Design</option>
+                <option value="Graphics Design">Graphics Design</option>
               </select>
             </div>
           </div>

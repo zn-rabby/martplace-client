@@ -1,7 +1,30 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import useJobs from "../../hooks/useJobs";
+import CategoryCard from "../CategoryCard/CategoryCard";
 
 const TabJobs = () => {
+  const { data, isLoading } = useJobs();
+
+  if (isLoading == true) {
+    return (
+      <div className="flex justify-center items-center h-[40vh]">
+        <span className="loading loading-lg loading-spinner text-[#6C40B8]"></span>
+      </div>
+    );
+  }
+
+  const webDevelopment = data.filter(
+    (item) => item.jobCategory == "Web Development"
+  );
+  const digitalMarketing = data.filter(
+    (item) => item.jobCategory == "Digital Marketing"
+  );
+  const graphicsDesign = data.filter(
+    (item) => item.jobCategory == "Graphics Design"
+  );
+
+  console.log(data);
   return (
     <div>
       <Tabs>
@@ -12,13 +35,13 @@ const TabJobs = () => {
         </TabList>
 
         <TabPanel>
-          <h2>Web Development</h2>
+          <CategoryCard items={webDevelopment}></CategoryCard>
         </TabPanel>
         <TabPanel>
-          <h2>Digital Marketing</h2>
+          <CategoryCard items={digitalMarketing}></CategoryCard>
         </TabPanel>
         <TabPanel>
-          <h2>Graphics Design</h2>
+          <CategoryCard items={graphicsDesign}></CategoryCard>
         </TabPanel>
       </Tabs>
     </div>

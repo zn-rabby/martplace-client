@@ -28,7 +28,7 @@ const TabJobs = () => {
   return (
     <div>
       <Tabs>
-        <TabList className="text-center text-[#6C40B8] text-xl font-semibold hover:text-[#6C40B8]">
+        <TabList className="text-center text-[#6C40B8] text-xl font-semibold hover:text-[#6C40B8] my-5">
           <Tab>Web Development</Tab>
           <Tab>Digital Marketing</Tab>
           <Tab>Graphics Design</Tab>

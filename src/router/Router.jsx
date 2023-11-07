@@ -8,6 +8,7 @@ import AddJobs from "../page/AddJobs/AddJobs";
 import PostedJobs from "../page/PostedJobs/PostedJobs";
 import Bids from "../page/Bids/Bids";
 import BidRequests from "../page/BidRequests/BidRequests";
+import JobsDetails from "../page/JobsDetails/JobsDetails";
 // import AddProduct from "../page/AddProduct/AddProduct";
 // import PrivateRoute from "../PrivateRoute/PrivateRoute";
 // import Brand from "../page/Brand/Brand";
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/addJob",
         element: <AddJobs></AddJobs>,
+      },
+      {
+        path: "/jobs/:id",
+        element: <JobsDetails></JobsDetails>,
       },
       {
         path: "/postedJobs",

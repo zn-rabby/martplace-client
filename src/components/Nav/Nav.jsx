@@ -73,7 +73,7 @@ const Nav = () => {
               : "text-[#186AE3]"
           }
         >
-          Posted Jobs
+          My Posted Jobs
         </NavLink>
       </li>
       <li className="text-xl font-bold">

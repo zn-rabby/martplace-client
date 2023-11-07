@@ -1,8 +1,10 @@
 import { BsFillCalendar2CheckFill } from "react-icons/bs";
 import { MdPriceChange } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const JobsCarts = ({ item }) => {
   const {
+    _id,
     email,
     title,
     jobCategory,
@@ -30,27 +32,26 @@ const JobsCarts = ({ item }) => {
           <BsFillCalendar2CheckFill></BsFillCalendar2CheckFill>{" "}
           {deadline.slice(0, 10)}
         </h2>
-        <a
-          href="#"
-          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#6C40B8] rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 "
-        >
-          Bid Now
-          <svg
-            className="w-3.5 h-3.5 ml-2"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 5h12m0 0L9 1m4 4L9 9"
-            />
-          </svg>
-        </a>
+        <Link to={`/jobs/${_id}`}>
+          <button className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#6C40B8] rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 ">
+            Bid Now
+            <svg
+              className="w-3.5 h-3.5 ml-2"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 10"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9"
+              />
+            </svg>
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import { BsFillCalendar2CheckFill } from "react-icons/bs";
-import { MdPriceChange } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const JobsCarts = ({ item }) => {

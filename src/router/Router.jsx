@@ -9,6 +9,7 @@ import PostedJobs from "../page/PostedJobs/PostedJobs";
 import Bids from "../page/Bids/Bids";
 import BidRequests from "../page/BidRequests/BidRequests";
 import JobsDetails from "../page/JobsDetails/JobsDetails";
+import Update from "../page/Update/Update";
 // import AddProduct from "../page/AddProduct/AddProduct";
 // import PrivateRoute from "../PrivateRoute/PrivateRoute";
 // import Brand from "../page/Brand/Brand";
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/postedJobs",
         element: <PostedJobs></PostedJobs>,
+      },
+      {
+        path: "/jobs/update/:id",
+        element: <Update></Update>,
       },
       {
         path: "/bids",

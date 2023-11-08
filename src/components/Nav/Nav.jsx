@@ -87,7 +87,7 @@ const Nav = () => {
               : "text-[#186AE3] "
           }
         >
-          Bids
+          My Bids
         </NavLink>
       </li>
       <li className="text-xl font-bold">

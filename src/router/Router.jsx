@@ -10,6 +10,7 @@ import Bids from "../page/Bids/Bids";
 import BidRequests from "../page/BidRequests/BidRequests";
 import JobsDetails from "../page/JobsDetails/JobsDetails";
 import Update from "../page/Update/Update";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 // import AddProduct from "../page/AddProduct/AddProduct";
 // import PrivateRoute from "../PrivateRoute/PrivateRoute";
 // import Brand from "../page/Brand/Brand";
@@ -45,7 +46,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/bids",
-        element: <Bids></Bids>,
+        element: (
+          <PrivateRoute>
+            <Bids></Bids>
+          </PrivateRoute>
+        ),
+        loader: () => fetch("http://localhost:5000/bids"),
       },
       {
         path: "/bidRequests",

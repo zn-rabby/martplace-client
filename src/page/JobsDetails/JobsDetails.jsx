@@ -98,7 +98,7 @@ const CardDetails = () => {
     <div>
       <div className="m-3">
         <Helmet>
-          <title>Connet-Job | Job-Details</title>
+          <title>MartPlace | Job-Details</title>
         </Helmet>
 
         <div>

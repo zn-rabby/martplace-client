@@ -4,6 +4,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import Social from "../Social/Social";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const Register = () => {
   const { createUser, profileUpdate } = useContext(AuthContext);
@@ -58,6 +59,9 @@ const Register = () => {
   };
   return (
     <div>
+      <Helmet>
+        <title>MartPlace | Register</title>
+      </Helmet>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-slate-50 border border-slate-300 rounded-lg  md:mt-0 sm:max-w-md xl:p-0  ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

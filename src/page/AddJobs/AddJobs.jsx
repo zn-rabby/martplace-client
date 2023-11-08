@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
@@ -56,6 +57,9 @@ const AddProduct = () => {
 
   return (
     <div className="max-w-screen-xl px-4 mx-auto">
+      <Helmet>
+        <title>MartPlace | Add-Jobs</title>
+      </Helmet>
       <div className="border shadow-xl rounded-md p-4 my-6">
         <h2 className="text-2xl font-bold text-center text-[#186AE3]">
           Add Jobs

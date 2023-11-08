@@ -4,6 +4,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import DatePicker from "react-datepicker";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const Update = () => {
   const [deadline, setDeadline] = useState(new Date());
@@ -63,6 +64,9 @@ const Update = () => {
   };
   return (
     <div>
+      <Helmet>
+        <title>MartPlace | Update</title>
+      </Helmet>
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="border shadow-xl rounded-md p-4 my-6">
           <h2 className="text-2xl font-bold text-center text-[#186AE3]">

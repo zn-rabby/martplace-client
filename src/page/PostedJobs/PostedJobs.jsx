@@ -11,13 +11,13 @@ const PostedJobs = () => {
   const [myData, setMyData] = useState([]);
 
   useEffect(() => {
-    const filterData = data?.filter((item) => user?.email == item.email);
+    const filterData = data?.filter((item) => user?.email == item?.email);
     setMyData(filterData);
-  }, [data, user.email]);
+  }, [data, user?.email]);
   // console.log(myData);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
-      {myData.map((postJobs) => (
+      {myData?.map((postJobs) => (
         <MyPostedJobs postJobs={postJobs} key={postJobs._id}></MyPostedJobs>
       ))}
     </div>

@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import swal from "sweetalert";
-import useJobs from "../../hooks/useJobs";
-import { AuthContext } from "../../provider/AuthProvider";
+import { Helmet } from "react-helmet";
+import DatePicker from "react-datepicker";
 
-const JobsDetails = () => {
-  const { refetch } = useJobs();
+import "react-datepicker/dist/react-datepicker.css";
 
+const CardDetails = () => {
+  const [deadline, setDeadline] = useState(new Date());
   const today = new Date();
   const currentDate =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
@@ -20,7 +22,7 @@ const JobsDetails = () => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["jobsDetails"],
     queryFn: async () => {
       const data = await fetch(`http://localhost:5000/jobs/${id}`);
@@ -31,74 +33,43 @@ const JobsDetails = () => {
   if (isLoading == true) {
     return (
       <div className="flex justify-center items-center h-[80vh]">
-        <span className="loading loading-lg loading-spinner text-[#152475]"></span>
+        <span className="loading loading-lg loading-spinner text-[#186AE3]"></span>
       </div>
     );
   }
 
   const {
-    _id,
-    banner,
-    title,
-    logo,
-    username,
     jobCategory,
+    title,
     salleryStart,
     salleryEnd,
     description,
     postingDate,
-    deadline,
     applicantNumber,
     email,
   } = data || {};
 
-  const applyDeadline = deadline.slice(0, 10);
-  const [deadlineYear, deadlineMonth, deadlineDay] = applyDeadline
-    .split("-")
-    .map(Number);
-
   const hanldemodalsubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
-    const modalUsername = form.modalUsername.value;
-    const modalEmail = form.modalEmail.value;
-    const modalResume = form.modalResume.value;
+    const userEmail = form.userEmail.value;
+    const buyerEmail = form.modalEmail.value;
 
     const appliedInfo = {
-      appliedUsername: modalUsername,
-      appliedEmail: modalEmail,
-      appliedResume: modalResume,
-      postBanner: banner,
+      appliedEmail: userEmail,
       postTitle: title,
-      companyLogo: logo,
-      postUsername: username,
       jobCategory,
       salleryStart,
       salleryEnd,
       postDescription: description,
       postingDate,
       deadline,
-      applicantNumber,
-      postEmail: email,
+      buyerEmail: buyerEmail,
     };
 
-    // validation
-
-    // if (email === modalEmail) {
-    //     swal('Sorry', "You Can't apply your own job.", "warning");
-    //     return;
-    // }
-
-    // (year1 < year2 || (year1 === year2 && (month1 < month2 || (month1 === month2 && day1 < day2))))
-
-    if (
-      currentYear < deadlineYear ||
-      (currentYear === deadlineYear &&
-        (currentMonth < deadlineMonth ||
-          (currentMonth === deadlineMonth && currentDay < deadlineDay)))
-    ) {
+    {
       try {
-        const response = await fetch("http://localhost:5000/applied", {
+        const response = await fetch("http://localhost:5000/bids", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -109,25 +80,10 @@ const JobsDetails = () => {
 
         if (result.acknowledged) {
           swal("done", "Job Applied Successfully", "success");
-
-          // updated number of applicant
-
-          try {
-            fetch(`http://localhost:5000/jobs/${_id}`, {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                if (data.modifiedCount) {
-                  refetch();
-                }
-              });
-          } catch (error) {
-            console.log(error);
-          }
+        }
+        if (email === buyerEmail) {
+          swal("Sorry", "You Can't apply your own job.", "warning");
+          return;
         }
       } catch (error) {
         console.log(error);
@@ -135,123 +91,141 @@ const JobsDetails = () => {
 
       form.reset("");
       return;
-    } else {
-      swal("Sorry", "Deadline has been expired.", "error");
-      return;
     }
   };
 
   return (
     <div>
-      <div className="lg:max-w-5xl mx-auto max-w-4xl  my-12">
-        <div className="max-full gap-2 m-3 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <div className="md:flex md:flex-row-reverse md:justify-between">
-            <p className="font-bold text-lg text-white mr-4">
-              Number of Applicants: {applicantNumber}
-            </p>
-            <h2 className="text-3xl lg:text-3xl xl:text-4xl font-bold text-[#6C40B8]">
-              {title}
-            </h2>
-          </div>
-          <div className="flex flex-col md:flex-row gap-4 justify-between mt-4 mb-4">
-            <p className="font-bold text-white  text-lg mr-4">
-              Sallery Range: {salleryStart} $ - ${salleryEnd}
-            </p>
-          </div>
-          <div className="my-3 text-white">{description}</div>
-          <div className="mt-2">
-            <div className="flex justify-end items-center mt-2">
-              <label
-                htmlFor="applyJobModal"
-                className="inline-flex items-center px-5 py-3 text-sm font-medium text-center text-white bg-[#6C40B8] rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 "
-              >
-                Please Your Bid
-                <svg
-                  className="w-3.5 h-3.5 ml-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
+      <div className="m-3">
+        <Helmet>
+          <title>Connet-Job | Job-Details</title>
+        </Helmet>
+
+        <div>
+          <div className="max-w-6xl rounded-md  shadow-md my-10 px-4 md:px-10 py-6 mx-auto bg-gray-800 border">
+            <div className="flex flex-col md:flex-row gap-4 justify-between mt-6 mb-2 text-white">
+              <a href="#" className="py-1 font-bold text-md  md:text-lg mr-4">
+                Sallery Range: {salleryStart} $ - ${salleryEnd}
+              </a>
+              <a href="#" className=" py-1 font-bold text-lg  mr-4">
+                {email}
+              </a>
+            </div>
+            <div className="mt-2 flex gap-2 items-center">
+              <h2 className="text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-[#186AE3]">
+                {title}
+              </h2>
+            </div>
+            <div className="my-3 text-white">{description}</div>
+            <div className="mt-2">
+              <div className="flex justify-end items-center mt-2">
+                <label
+                  htmlFor="applyJobModal"
+                  className="bg-[#186AE3] px-6 py-2 mt-1 rounded-md cursor-pointer text-white"
                 >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </label>
+                  Apply Now
+                </label>
+                <input
+                  type="checkbox"
+                  id="applyJobModal"
+                  className="modal-toggle"
+                />
+                <div className="modal">
+                  <div className="modal-box">
+                    <label htmlFor="applyJobModal" className="flex justify-end">
+                      <AiOutlineCloseCircle className="text-4xl"></AiOutlineCloseCircle>
+                    </label>
 
-              {/* modal start */}
+                    <h3 className="font-bold text-xl text-center">
+                      Apply To The Job
+                    </h3>
+                    <form onSubmit={hanldemodalsubmit}>
+                      <div className="md:flex">
+                        <div className="form-control md:w-full mx-2">
+                          <label className="label ">
+                            <span className="label-text text-lg text-white">
+                              Sallery Range
+                            </span>
+                          </label>
 
-              {/* The button to open modal */}
-
-              {/* Put this part before </body> tag */}
-              <input
-                type="checkbox"
-                id="applyJobModal"
-                className="modal-toggle"
-              />
-              <div className="modal">
-                <div className="modal-box">
-                  <label htmlFor="applyJobModal" className="flex justify-end">
-                    <AiOutlineCloseCircle className="text-4xl"></AiOutlineCloseCircle>
-                  </label>
-
-                  <h3 className="font-bold text-xl text-center">
-                    Apply To The Job
-                  </h3>
-                  <form onSubmit={hanldemodalsubmit}>
-                    <div className="my-2">
-                      <label className="text-gray-700">Your Username</label>
-                      <br />
-                      <input
-                        className="p-[6px] text-black rounded w-full border border-gray-500"
-                        defaultValue={user.displayName}
-                        type="text"
-                        name="modalUsername"
-                        id=""
-                      />
-                    </div>
-                    <div className="my-2">
-                      <label className="text-gray-700">Your Email</label>
-                      <br />
-                      <input
-                        className="p-[6px] text-black rounded w-full border border-gray-500"
-                        defaultValue={user.email}
-                        type="text"
-                        name="modalEmail"
-                        id=""
-                      />
-                    </div>
-                    <div className="my-2">
-                      <label className="text-gray-700">Your Resume Link</label>
-                      <br />
-                      <input
-                        placeholder="Your resume link"
-                        className="p-[6px] text-black rounded w-full border border-gray-500"
-                        type="text"
-                        name="modalResume"
-                        id=""
-                        autoFocus
-                      />
-                    </div>
-                    <div method="dialog" className="flex justify-end">
-                      <button type="submit" className="mt-4">
-                        <label
-                          className="bg-[#6C40B8] px-8 py-2 rounded-md cursor-pointer text-white"
-                          htmlFor="applyJobModal"
-                        >
-                          Submit
+                          <label className="flex items-center">
+                            <input
+                              type="text"
+                              defaultValue={salleryStart}
+                              name="salleryStart"
+                              placeholder="Min $$"
+                              className="input input-bordered w-full"
+                            />
+                            <span className="text-xl font-semibold mx-4">
+                              To
+                            </span>
+                            <input
+                              type="text"
+                              defaultValue={salleryEnd}
+                              name="salleryEnd"
+                              placeholder="Max $$"
+                              className="input input-bordered w-full"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                      <div className="form-control  mx-2">
+                        <label className="label ">
+                          <span className="label-text text-lg text-white">
+                            Job Deadline
+                          </span>
                         </label>
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
 
-              {/* modal end */}
+                        <DatePicker
+                          className="input input-bordered w-full"
+                          selected={deadline}
+                          onChange={(date) => setDeadline(date)}
+                        />
+                      </div>
+                      <div className="form-control  mx-2">
+                        <label className="label ">
+                          <span className="label-text text-lg text-white">
+                            User Email
+                          </span>
+                        </label>
+                        <input
+                          className="input input-bordered w-full"
+                          defaultValue={user.email}
+                          type="text"
+                          name="userEmail"
+                          id=""
+                        />
+                      </div>
+                      <div className="form-control  mx-2">
+                        <label className="label ">
+                          <span className="label-text text-lg text-white">
+                            Buyer Email
+                          </span>
+                        </label>
+                        <input
+                          className="input input-bordered w-full"
+                          defaultValue={email}
+                          type="text"
+                          name="modalEmail"
+                          id=""
+                        />
+                      </div>
+                      <div method="dialog" className="flex justify-end">
+                        <button type="submit" className="mt-4">
+                          <label
+                            className="bg-[#186AE3] px-8 py-2 rounded-md cursor-pointer text-white"
+                            htmlFor="applyJobModal"
+                          >
+                            Bid Now
+                          </label>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                {/* modal end */}
+              </div>
             </div>
           </div>
         </div>
@@ -259,8 +233,9 @@ const JobsDetails = () => {
     </div>
   );
 };
-JobsDetails.propTypes = {
+
+CardDetails.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-export default JobsDetails;
+export default CardDetails;

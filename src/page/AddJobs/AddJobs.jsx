@@ -33,6 +33,7 @@ const AddProduct = () => {
       salleryEnd,
       description,
       deadline,
+      applied: [],
     };
     console.log(jobObj);
     try {

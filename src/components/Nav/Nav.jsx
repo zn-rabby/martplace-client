@@ -1,29 +1,8 @@
 import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
-// import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 
 const Nav = () => {
-  // const [theme, setTheme] = useState(null);
-
-  // useEffect(() => {
-  //   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  //     setTheme("dark");
-  //   } else {
-  //     setTheme("light");
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (theme === "dark") {
-  //     document.documentElement.classList.add("dark");
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //   }
-  // }, [theme]);
-  // const handleThemeSwich = () => {
-  //   setTheme(theme === "dark" ? "light" : "dark");
-  // };
   const { user, logOut } = useContext(AuthContext);
   const handleSignOut = () => {
     logOut()

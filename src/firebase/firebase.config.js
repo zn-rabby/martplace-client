@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBLuGBhUTdmbFpgxaI_-lJAUQpqHqM582Q",
-  authDomain: "martplace-d6c8a.firebaseapp.com",
-  projectId: "martplace-d6c8a",
-  storageBucket: "martplace-d6c8a.appspot.com",
-  messagingSenderId: "303730586635",
-  appId: "1:303730586635:web:069f88f7cd636d18a4430e",
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase

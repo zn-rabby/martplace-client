@@ -24,6 +24,7 @@ const Update = () => {
     },
   });
   console.log(data);
+  const { salleryStart, title, description, salleryEnd } = data || {};
 
   const handleUpdateJob = async (event) => {
     event.preventDefault();
@@ -99,6 +100,7 @@ const Update = () => {
                 <label className="">
                   <input
                     type="text"
+                    defaultValue={title}
                     name="title"
                     placeholder="Job Title"
                     className="input input-bordered w-full"
@@ -152,6 +154,7 @@ const Update = () => {
                 <label className="flex items-center">
                   <input
                     type="text"
+                    defaultValue={salleryStart}
                     name="salleryStart"
                     placeholder="Min $$"
                     className="input input-bordered w-full"
@@ -159,6 +162,7 @@ const Update = () => {
                   <span className="text-xl font-semibold mx-4">To</span>
                   <input
                     type="text"
+                    defaultChecked={salleryEnd}
                     name="salleryEnd"
                     placeholder="Max $$"
                     className="input input-bordered w-full"
@@ -174,6 +178,7 @@ const Update = () => {
               </label>
               <label className="">
                 <textarea
+                  defaultValue={description}
                   name="description"
                   className="textarea input input-bordered w-full"
                   placeholder="Job Description"

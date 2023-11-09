@@ -65,6 +65,7 @@ const CardDetails = () => {
       postingDate,
       deadline,
       buyerEmail: buyerEmail,
+      status: "",
     };
 
     {

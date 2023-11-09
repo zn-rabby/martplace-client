@@ -4,7 +4,7 @@ const useBids = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["bids"],
     queryFn: async () => {
-      const data = await fetch("http://localhost:5000/bids");
+      const data = await fetch("https://martplace-server.vercel.app/bids");
       return await data.json();
     },
   });

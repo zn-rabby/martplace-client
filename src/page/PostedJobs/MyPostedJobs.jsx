@@ -28,9 +28,12 @@ const MyPostedJobs = ({ postJobs }) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            const response = await fetch(`http://localhost:5000/jobs/${_id}`, {
-              method: "DELETE",
-            });
+            const response = await fetch(
+              `https://martplace-server.vercel.app/jobs/${_id}`,
+              {
+                method: "DELETE",
+              }
+            );
             const result = await response.json();
             if (result.deletedCount > 0) {
               // const filterCart = brandCarts.filter((cart) => cart._id !== _id);

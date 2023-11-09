@@ -16,7 +16,7 @@ const BidRequests = () => {
 
   // console.log(bidRequest);
   const handleBookingAccept = (id) => {
-    fetch(`http://localhost:5000/bids/${id}`, {
+    fetch(`https://martplace-server.vercel.app/bids/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -37,7 +37,7 @@ const BidRequests = () => {
       });
   };
   const handleBookingReject = (id) => {
-    fetch(`http://localhost:5000/bids/${id}`, {
+    fetch(`https://martplace-server.vercel.app/bids/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

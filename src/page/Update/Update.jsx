@@ -19,7 +19,9 @@ const Update = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["jobsUpdates"],
     queryFn: async () => {
-      const data = await fetch(`http://localhost:5000/jobs/${id}`);
+      const data = await fetch(
+        `https://martplace-server.vercel.app/jobs/${id}`
+      );
       return await data.json();
     },
   });
@@ -45,13 +47,16 @@ const Update = () => {
     };
     console.log(jobObj);
     try {
-      const response = await fetch(`http://localhost:5000/jobs/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(jobObj),
-      });
+      const response = await fetch(
+        `https://martplace-server.vercel.app/jobs/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jobObj),
+        }
+      );
       const result = await response.json();
 
       if (result.acknowledged) {

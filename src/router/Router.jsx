@@ -65,7 +65,7 @@ const router = createBrowserRouter([
       {
         path: "/bidRequests",
         element: <BidRequests></BidRequests>,
-        loader: () => fetch("http://localhost:5000/bids"),
+        loader: () => fetch("https://martplace-server.vercel.app/bids"),
       },
       {
         path: "/login",

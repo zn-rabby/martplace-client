@@ -2,7 +2,7 @@
 
 #### Online Market Place
 
-## Live-Link: [Digital Store](https://digital-store-bc6d4.web.app/)
+## Live-Link: [Digital Store](https://martplace-d6c8a.web.app/)
 
 ### Project Features
 

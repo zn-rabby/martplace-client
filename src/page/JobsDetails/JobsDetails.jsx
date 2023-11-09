@@ -25,7 +25,9 @@ const CardDetails = () => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["jobsDetails"],
     queryFn: async () => {
-      const data = await fetch(`http://localhost:5000/jobs/${id}`);
+      const data = await fetch(
+        `https://martplace-server.vercel.app/jobs/${id}`
+      );
       return await data.json();
     },
   });
@@ -73,13 +75,16 @@ const CardDetails = () => {
 
     {
       try {
-        const response = await fetch("http://localhost:5000/bids", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(appliedInfo),
-        });
+        const response = await fetch(
+          "https://martplace-server.vercel.app/bids",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(appliedInfo),
+          }
+        );
         const result = await response.json();
 
         if (result.acknowledged) {

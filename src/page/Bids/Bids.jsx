@@ -8,7 +8,7 @@ const Bids = () => {
   console.log(user.email);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/bids/${user.email}`)
+    fetch(`https://martplace-server.vercel.app/bids/${user.email}`)
       .then((res) => res.json())
       .then((data) => setBids(data));
   }, [user.email]);

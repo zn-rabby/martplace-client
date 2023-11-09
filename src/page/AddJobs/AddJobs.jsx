@@ -37,7 +37,7 @@ const AddProduct = () => {
     };
     console.log(jobObj);
     try {
-      const response = await fetch("http://localhost:5000/jobs", {
+      const response = await fetch("https://martplace-server.vercel.app/jobs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

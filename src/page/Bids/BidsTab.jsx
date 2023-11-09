@@ -22,13 +22,13 @@ const BidsTab = ({ bid }) => {
       <td>{deadline.slice(0, 10)}</td>
       <td>
         {status === "reject" ? (
-          <span className="btn btn-ghost btn-sm bg-primary text-white">
+          <span className="btn btn-ghost btn-sm bg-[#FF3811] text-white">
             reject
           </span>
         ) : (
           <p>
             {status === "confirm" ? (
-              <span className="btn btn-ghost btn-sm bg-primary text-white">
+              <span className="btn btn-ghost btn-sm bg-[#186AE3] text-white">
                 progress
               </span>
             ) : (

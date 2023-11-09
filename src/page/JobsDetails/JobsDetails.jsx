@@ -82,10 +82,10 @@ const CardDetails = () => {
         if (result.acknowledged) {
           swal("done", "Job Applied Successfully", "success");
         }
-        if (email === buyerEmail) {
-          swal("Sorry", "You Can't apply your own job.", "warning");
-          return;
-        }
+        // if (email === buyerEmail) {
+        //   swal("Sorry", "You Can't apply your own job.", "warning");
+        //   return;
+        // }
       } catch (error) {
         console.log(error);
       }

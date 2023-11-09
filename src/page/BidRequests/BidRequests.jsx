@@ -77,8 +77,8 @@ const BidRequests = () => {
                     <th>Email</th>
                     <th>Time</th>
                     <th>Status</th>
-                    <th>BTN</th>
-                    <th>BTN</th>
+                    <th>Accept</th>
+                    <th>Reject</th>
                   </tr>
                 </thead>
                 <tbody>

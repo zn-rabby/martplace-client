@@ -15,6 +15,48 @@ const BidRequests = () => {
   }, [data, user?.email]);
 
   // console.log(bidRequest);
+  const handleBookingAccept = (id) => {
+    fetch(`http://localhost:5000/bids/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ status: "confirm" }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.modifiedCount > 0) {
+          // update state
+          // const remaining = bookings.filter((booking) => booking._id !== id);
+          // const updated = bookings.find((booking) => booking._id !== id);
+          // updated.status = "confirm";
+          // const newBookings = [updated, ...remaining];
+          // setBidRequest(newBookings);
+        }
+      });
+  };
+  const handleBookingReject = (id) => {
+    fetch(`http://localhost:5000/bids/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ status: "reject" }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.modifiedCount > 0) {
+          // update state
+          // const remaining = bookings.filter((booking) => booking._id !== id);
+          // const updated = bookings.find((booking) => booking._id !== id);
+          // updated.status = "confirm";
+          // const newBookings = [updated, ...remaining];
+          // setBidRequest(newBookings);
+        }
+      });
+  };
   return (
     <div>
       <Helmet>
@@ -44,6 +86,8 @@ const BidRequests = () => {
                     <RequestBid
                       key={bid._id}
                       bid={bid}
+                      handleBookingAccept={handleBookingAccept}
+                      handleBookingReject={handleBookingReject}
                       // bookings={bookings}
                       // handelDelete={handelDelete}
                       // handleBookingConfirm={handleBookingConfirm}

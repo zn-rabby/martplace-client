@@ -1,6 +1,6 @@
-const RequestBid = ({ bid }) => {
+const RequestBid = ({ bid, handleBookingAccept, handleBookingReject }) => {
   console.log(bid);
-  const { postTitle, deadline, appliedEmail } = bid || {};
+  const { postTitle, deadline, appliedEmail, _id } = bid || {};
   return (
     <tr>
       <th>{postTitle}</th>
@@ -12,12 +12,18 @@ const RequestBid = ({ bid }) => {
         </button>
       </td>
       <td>
-        <button className="btn btn-ghost btn-sm bg-[#FF3811] text-white">
+        <button
+          onClick={() => handleBookingAccept(_id)}
+          className="btn btn-ghost btn-sm bg-[#FF3811] text-white"
+        >
           Accept
         </button>
       </td>
       <td>
-        <button className="btn btn-ghost btn-sm bg-[#FF3811] text-white">
+        <button
+          onClick={() => handleBookingReject(_id)}
+          className="btn btn-ghost btn-sm bg-[#FF3811] text-white"
+        >
           Reject
         </button>
       </td>

@@ -41,20 +41,6 @@ const RequestBid = ({ bid, handleBookingAccept, handleBookingReject }) => {
           Reject
         </button>
       </td>
-      {/* <th>
-        {status === "confirm" ? (
-          <span className="btn btn-ghost btn-sm bg-primary text-white">
-            Confirm
-          </span>
-        ) : (
-          <button
-            onClick={() => handleBookingConfirm(_id)}
-            className="btn btn-ghost btn-sm bg-[#FF3811] text-white"
-          >
-            Please Confirm
-          </button>
-        )}
-      </th> */}
     </tr>
   );
 };

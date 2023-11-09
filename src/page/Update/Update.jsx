@@ -60,7 +60,7 @@ const Update = () => {
       const result = await response.json();
 
       if (result.acknowledged) {
-        Swal.fire("Jobs Add", "Successfully Jobs Add", "success");
+        Swal.fire("Update Jobs", "Successfully Update Jobs", "success");
       }
     } catch (error) {
       console.log(error);

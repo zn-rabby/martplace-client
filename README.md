@@ -1,8 +1,14 @@
-# React + Vite
+# MartPlace
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#### Online Market Place
 
-Currently, two official plugins are available:
+## Live-Link: [Digital Store](https://digital-store-bc6d4.web.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Project Features
+
+- Our MartPlace website user can use apply job and posted jobs.
+- If you can visited website must be registration and login this website.
+- You can add Job Post and approve or reject applied user.
+- Responsive for All Device
+- Hear you can see different three type jobs post
+- You can added jobs and delete, update.

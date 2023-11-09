@@ -45,7 +45,6 @@ const CardDetails = () => {
     salleryEnd,
     description,
     postingDate,
-    applicantNumber,
     email,
   } = data || {};
 
@@ -67,6 +66,10 @@ const CardDetails = () => {
       buyerEmail: buyerEmail,
       status: "",
     };
+    if (user.email === buyerEmail) {
+      swal("Sorry", "You Can't apply your own job.", "warning");
+      return;
+    }
 
     {
       try {
@@ -81,11 +84,8 @@ const CardDetails = () => {
 
         if (result.acknowledged) {
           swal("done", "Job Applied Successfully", "success");
+          refetch();
         }
-        // if (email === buyerEmail) {
-        //   swal("Sorry", "You Can't apply your own job.", "warning");
-        //   return;
-        // }
       } catch (error) {
         console.log(error);
       }

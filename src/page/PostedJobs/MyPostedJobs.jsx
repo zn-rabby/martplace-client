@@ -14,21 +14,39 @@ const MyPostedJobs = ({ postJobs }) => {
     description,
     deadline,
   } = postJobs || {};
+
   const handleDelete = async (_id) => {
     try {
-      const response = await fetch(`http://localhost:5000/jobs/${_id}`, {
-        method: "DELETE",
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete it?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await fetch(`http://localhost:5000/jobs/${_id}`, {
+              method: "DELETE",
+            });
+            const result = await response.json();
+            if (result.deletedCount > 0) {
+              // const filterCart = brandCarts.filter((cart) => cart._id !== _id);
+              // setBrandCarts(filterCart);
+              Swal.fire("Delete", "Successfully Delete", "success");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
       });
-      const result = await response.json();
-      if (result.deletedCount > 0) {
-        // const filterCart = brandCarts.filter((cart) => cart._id !== _id);
-        // setBrandCarts(filterCart);
-        Swal.fire("Delete", "Successfully Delete", "success");
-      }
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div>
       <div className="max-full gap-2 m-3 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

@@ -48,6 +48,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/jobs/update/:id",
+        // `/jobs/update/${_id}`
         element: (
           <Update>
             <Update></Update>

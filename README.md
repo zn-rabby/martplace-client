@@ -24,7 +24,6 @@
 - Toastify
 - Daisy UI
 - React Data Table Component (Table)
-- Stripe (Payment Integration)
 
 ### 1. Server Side:
 

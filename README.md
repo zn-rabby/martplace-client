@@ -2,7 +2,7 @@
 
 ### Live-Link: [Online Market Place](https://martplace-d6c8a.web.app/)
 
-### Server: [Ser](https://martplace-d6c8a.web.app/)
+### Server: [Server Site Code](https://martplace-d6c8a.web.app/)
 
 ### Project Features
 

@@ -13,7 +13,7 @@ const Subscribe = () => {
 
   return (
     <div className="px-5">
-      <div className="max-w-7xl mx-auto p-10 my-20 flex flex-col-reverse md:flex-row gap-6 items-center shadow-md rounded-lg border border-gray-200">
+      <div className="container mx-auto p-10 my-20 flex flex-col-reverse md:flex-row gap-6 items-center shadow-md rounded-lg border border-gray-200">
         <div data-aos="fade-up" data-aos-duration="1500" className="md:w-1/2">
           <h2 className="text-dark-01 font-semibold text-3xl md:text-4xl mb-2">
             Subscribe now

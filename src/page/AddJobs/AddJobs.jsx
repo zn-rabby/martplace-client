@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
@@ -8,11 +7,9 @@ import { Helmet } from "react-helmet";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
-
-  // const [postingDate, setPostingDate] = useState(new Date());
   const [deadline, setDeadline] = useState(new Date());
-
   const [jobCategory, setJobCategory] = useState("");
+
   const handleCategoryChange = (event) => {
     setJobCategory(event.target.value);
   };
@@ -20,22 +17,17 @@ const AddProduct = () => {
   const handleAddJob = async (event) => {
     event.preventDefault();
     const form = event.target;
-    const email = form.email.value;
-    const title = form.title.value;
-    const salleryStart = form.salleryStart.value;
-    const salleryEnd = form.salleryEnd.value;
-    const description = form.description.value;
     const jobObj = {
-      email,
-      title,
+      email: form.email.value,
+      title: form.title.value,
       jobCategory,
-      salleryStart,
-      salleryEnd,
-      description,
+      salleryStart: form.salleryStart.value,
+      salleryEnd: form.salleryEnd.value,
+      description: form.description.value,
       deadline,
       applied: [],
     };
-    console.log(jobObj);
+
     try {
       const response = await fetch("https://martplace-server.vercel.app/jobs", {
         method: "POST",
@@ -47,139 +39,150 @@ const AddProduct = () => {
       const result = await response.json();
 
       if (result.acknowledged) {
-        Swal.fire("Jobs Add", "Successfully Jobs Add", "success");
+        Swal.fire({
+          title: "Job Added",
+          text: "Job posted successfully!",
+          icon: "success",
+          confirmButtonColor: "#6C40B8",
+        });
+        form.reset();
       }
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        title: "Error",
+        text: "Failed to add job",
+        icon: "error",
+        confirmButtonColor: "#EF4741",
+      });
     }
-
-    form.reset("");
   };
 
   return (
-    <div className="max-w-screen-xl px-4 mx-auto">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <Helmet>
-        <title>MartPlace | Add-Jobs</title>
+        <title>MartPlace | Add Jobs</title>
       </Helmet>
-      <div className="border shadow-xl rounded-md p-4 my-6">
-        <h2 className="text-2xl font-bold text-center text-[#186AE3]">
-          Add Jobs
-        </h2>
-        <form onSubmit={handleAddJob}>
-          <div className="md:flex">
-            <div className="form-control md:w-1/2 mx-2">
-              <label className="label ">
-                <span className="label-text text-lg text-white">
+      <div className="container mx-auto">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-gradient-to-r from-[#6C40B8] to-[#EF4741] py-4 px-6">
+            <h2 className="text-2xl font-bold text-center text-white">
+              Post a New Job
+            </h2>
+          </div>
+
+          <form onSubmit={handleAddJob} className="p-6 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Email Field */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
                   Your Email
-                </span>
-              </label>
-              <label className="">
+                </label>
                 <input
                   defaultValue={user?.email}
                   type="email"
                   name="email"
-                  placeholder="Email"
-                  className="input input-bordered w-full"
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#6C40B8] focus:border-[#6C40B8]"
+                  readOnly
                 />
-              </label>
-            </div>
-            <div className="form-control md:w-1/2 mx-2">
-              <label className="label">
-                <span className="label-text text-lg text-white">Job Title</span>
-              </label>
-              <label className="">
+              </div>
+
+              {/* Job Title */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Job Title
+                </label>
                 <input
                   type="text"
                   name="title"
-                  placeholder="Job Title"
-                  className="input input-bordered w-full"
+                  required
+                  placeholder="e.g. Senior Web Developer"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#6C40B8] focus:border-[#6C40B8]"
                 />
-              </label>
-            </div>
-          </div>
-          {/* ---- */}
-          <div className="md:flex">
-            <div className="form-control md:w-1/2 mx-2">
-              <label className="label ">
-                <span className="label-text text-lg text-white">
-                  Job Deadline
-                </span>
-              </label>
+              </div>
 
-              <DatePicker
-                className="input input-bordered w-full"
-                selected={deadline}
-                onChange={(date) => setDeadline(date)}
-              />
-            </div>
+              {/* Deadline */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Application Deadline
+                </label>
+                <DatePicker
+                  selected={deadline}
+                  onChange={(date) => setDeadline(date)}
+                  minDate={new Date()}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#6C40B8] focus:border-[#6C40B8]"
+                  required
+                />
+              </div>
 
-            <div className="form-control md:w-1/2 mx-2">
-              <label className="label ">
-                <span className="label-text text-lg text-white ">
+              {/* Job Category */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
                   Job Category
-                </span>
-              </label>
-              <select
-                className="input input-bordered w-full"
-                value={jobCategory}
-                onChange={handleCategoryChange}
-              >
-                <option selected>Choose Job Category</option>
-                <option value="Web Development">Web Development</option>
-                <option value="Digital Marketing">Digital Marketing</option>
-                <option value="Graphics Design">Graphics Design</option>
-              </select>
-            </div>
-          </div>
-          {/* ---- */}
-          <div className="md:flex">
-            <div className="form-control md:w-full mx-2">
-              <label className="label ">
-                <span className="label-text text-lg text-white">
-                  Sallery Range
-                </span>
-              </label>
+                </label>
+                <select
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#6C40B8] focus:border-[#6C40B8]"
+                  value={jobCategory}
+                  onChange={handleCategoryChange}
+                  required
+                >
+                  <option value="">Select a category</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Digital Marketing">Digital Marketing</option>
+                  <option value="Graphics Design">Graphics Design</option>
+                </select>
+              </div>
 
-              <label className="flex items-center">
-                <input
-                  type="text"
-                  name="salleryStart"
-                  placeholder="Min $$"
-                  className="input input-bordered w-full"
-                />
-                <span className="text-xl font-semibold mx-4">To</span>
-                <input
-                  type="text"
-                  name="salleryEnd"
-                  placeholder="Max $$"
-                  className="input input-bordered w-full"
-                />
-              </label>
+              {/* Salary Range */}
+              <div className="col-span-2 space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Salary Range ($)
+                </label>
+                <div className="flex items-center space-x-4">
+                  <input
+                    type="number"
+                    name="salleryStart"
+                    placeholder="Minimum"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#6C40B8] focus:border-[#6C40B8]"
+                  />
+                  <span className="text-gray-500">to</span>
+                  <input
+                    type="number"
+                    name="salleryEnd"
+                    placeholder="Maximum"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#6C40B8] focus:border-[#6C40B8]"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="form-control w-full mx-2 pr-4">
-            <label className="label">
-              <span className="label-text text-lg text-white">
+
+            {/* Job Description */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
                 Job Description
-              </span>
-            </label>
-            <label className="">
+              </label>
               <textarea
                 name="description"
-                className="textarea input input-bordered w-full"
-                placeholder="Job Description"
+                rows={5}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#6C40B8] focus:border-[#6C40B8]"
+                placeholder="Describe the job responsibilities, requirements, and benefits..."
               ></textarea>
-            </label>
-          </div>
+            </div>
 
-          <div className="text-center">
-            <input
-              type="submit"
-              value="Add Job"
-              className="bg-[#186AE3] hover:bg-[#186AE3] text-white w-1/2 m-2 rounded-lg py-3 px-4 my-5 text-xl font-semibold"
-            />
-          </div>
-        </form>
+            {/* Submit Button */}
+            <div className="pt-4">
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-[#6C40B8] to-[#EF4741] text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transition-all duration-300 transform hover:scale-[1.01]"
+              >
+                Post Job Now
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

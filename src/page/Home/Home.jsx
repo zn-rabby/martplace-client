@@ -27,7 +27,7 @@ const Home = () => {
       </div>
 
       {/* Subscribe Section */}
-      <div className="bg-white py-10 md:py-16">
+      <div className="">
         <Subscribe />
       </div>
     </div>

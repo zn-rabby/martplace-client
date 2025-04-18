@@ -22,7 +22,7 @@ const Home = () => {
       </div>
 
       {/* Work Section */}
-      <div className="bg-white py-10 md:py-16">
+      <div className="">
         <Work />
       </div>
 

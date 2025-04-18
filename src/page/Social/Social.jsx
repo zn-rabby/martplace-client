@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
-import { AuthContext } from "../../provider/AuthProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const Social = () => {
   const { googleUserCreate } = useContext(AuthContext);

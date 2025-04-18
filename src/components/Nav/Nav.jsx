@@ -111,9 +111,6 @@ const Nav = () => {
                   alt="MartPlace Logo"
                   className="h-8"
                 />
-                <span className="ml-2 text-xl font-bold text-primary hidden md:block">
-                  MartPlace
-                </span>
               </Link>
             </div>
 

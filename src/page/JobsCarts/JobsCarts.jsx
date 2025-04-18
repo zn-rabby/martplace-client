@@ -1,10 +1,10 @@
+/* eslint-disable react/prop-types */
 import { BsFillCalendar2CheckFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 const JobsCarts = ({ item }) => {
   const {
     _id,
-    email,
     title,
     jobCategory,
     salleryStart,
@@ -12,27 +12,36 @@ const JobsCarts = ({ item }) => {
     description,
     deadline,
   } = item || {};
+
   return (
-    <div className="max-full gap-2 m-3 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {title}
-      </h2>
+    <div className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+      <div className="p-6">
+        <div className="flex justify-between items-start mb-4">
+          <h2 className="text-xl font-bold text-gray-800">{title}</h2>
+          <span className="bg-[#6C40B8]/10 text-[#6C40B8] text-xs font-medium px-2.5 py-0.5 rounded">
+            {jobCategory}
+          </span>
+        </div>
 
-      <h4 className="text-xl font-semibold text-white flex gap-2 items-center">
-        Price range:
-        <span>${salleryStart}</span>
-        <span className="text-lg font-medium text-white">-</span>
-        <span>${salleryEnd}</span>
-      </h4>
-      <p className="mb-3 font-normal text-white">{description.slice(0, 100)}</p>
+        <div className="mb-4">
+          <h4 className="text-lg font-semibold text-gray-700 mb-2">
+            Salary Range:{" "}
+            <span className="text-[#6C40B8]">
+              ${salleryStart} - ${salleryEnd}
+            </span>
+          </h4>
+          <p className="text-gray-600 line-clamp-3">{description}</p>
+        </div>
 
-      <div className="flex justify-between text-lg font-semibold">
-        <h2 className="flex gap-2 items-center text-[#6C40B8]">
-          <BsFillCalendar2CheckFill></BsFillCalendar2CheckFill>{" "}
-          {deadline.slice(0, 10)}
-        </h2>
-        <Link to={`/jobs/${_id}`}>
-          <button className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#6C40B8] rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 ">
+        <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+          <div className="flex items-center text-[#6C40B8]">
+            <BsFillCalendar2CheckFill className="mr-2" />
+            <span>{new Date(deadline).toLocaleDateString()}</span>
+          </div>
+          <Link
+            to={`/jobs/${_id}`}
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-[#6C40B8] rounded-lg hover:bg-[#5A36A0] transition-colors"
+          >
             Bid Now
             <svg
               className="w-3.5 h-3.5 ml-2"
@@ -49,8 +58,8 @@ const JobsCarts = ({ item }) => {
                 d="M1 5h12m0 0L9 1m4 4L9 9"
               />
             </svg>
-          </button>
-        </Link>
+          </Link>
+        </div>
       </div>
     </div>
   );

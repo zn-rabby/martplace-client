@@ -12,12 +12,12 @@ const Home = () => {
       </Helmet>
 
       {/* Banner Section */}
-      <div className="bg-white ">
+      <div className="">
         <Banner />
       </div>
 
       {/* TabJobs Section */}
-      <div className="bg-white py-10 md:py-16">
+      <div className="">
         <TabJobs />
       </div>
 

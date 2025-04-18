@@ -6,20 +6,29 @@ import Work from "../Work/Work";
 
 const Home = () => {
   return (
-    <div>
+    <div className="bg-white min-h-screen">
       <Helmet>
         <title>Martplace | Home</title>
       </Helmet>
-      <Banner></Banner>
-      <div className="my-10">
-        <TabJobs></TabJobs>
+
+      {/* Banner Section */}
+      <div className="bg-white ">
+        <Banner />
       </div>
 
-      <div>
-        <Work></Work>
+      {/* TabJobs Section */}
+      <div className="bg-white py-10 md:py-16">
+        <TabJobs />
       </div>
-      <div>
-        <Subscribe></Subscribe>
+
+      {/* Work Section */}
+      <div className="bg-white py-10 md:py-16">
+        <Work />
+      </div>
+
+      {/* Subscribe Section */}
+      <div className="bg-white py-10 md:py-16">
+        <Subscribe />
       </div>
     </div>
   );

@@ -33,10 +33,12 @@ const Banner = () => {
 
             {/* CTA Button */}
             <div className="flex justify-center">
-              <button className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] hover:from-[#FFA500] hover:to-[#FF8C00] text-[#100613] text-lg md:text-xl font-bold py-4 px-10 rounded-full flex items-center justify-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                Browse Jobs Now
-                <MdKeyboardDoubleArrowRight className="text-2xl animate-bounce-horizontal" />
-              </button>
+              <a href="/postedJobs">
+                <button className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] hover:from-[#FFA500] hover:to-[#FF8C00] text-[#100613] text-lg md:text-xl font-bold py-4 px-10 rounded-full flex items-center justify-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                  Browse Jobs Now
+                  <MdKeyboardDoubleArrowRight className="text-2xl animate-bounce-horizontal" />
+                </button>
+              </a>
             </div>
 
             {/* Stats */}

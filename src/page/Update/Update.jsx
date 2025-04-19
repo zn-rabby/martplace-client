@@ -16,7 +16,7 @@ const Update = () => {
     setJobCategory(event.target.value);
   };
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["jobsUpdates"],
     queryFn: async () => {
       const data = await fetch(

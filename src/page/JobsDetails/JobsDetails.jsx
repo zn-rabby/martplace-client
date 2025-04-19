@@ -1,20 +1,21 @@
+/* eslint-disable no-unused-vars */
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
-import { AuthContext } from "../../Provider/AuthProvider";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import swal from "sweetalert";
 import { Helmet } from "react-helmet";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const CardDetails = () => {
   const [deadline, setDeadline] = useState(new Date());
   const today = new Date();
-  const currentDate =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  const currentDate = `${today.getFullYear()}-${
+    today.getMonth() + 1
+  }-${today.getDate()}`;
   const [currentYear, currentMonth, currentDay] = currentDate
     .split("-")
     .map(Number);
@@ -25,17 +26,15 @@ const CardDetails = () => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["jobsDetails"],
     queryFn: async () => {
-      const data = await fetch(
-        `https://martplace-server.vercel.app/jobs/${id}`
-      );
-      return await data.json();
+      const res = await fetch(`https://martplace-server.vercel.app/jobs/${id}`);
+      return await res.json();
     },
   });
 
-  if (isLoading == true) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[80vh]">
-        <span className="loading loading-lg loading-spinner text-[#186AE3]"></span>
+        <span className="loading loading-lg loading-spinner text-primary"></span>
       </div>
     );
   }
@@ -50,11 +49,16 @@ const CardDetails = () => {
     email,
   } = data || {};
 
-  const hanldemodalsubmit = async (event) => {
+  const handleModalSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
     const userEmail = form.userEmail.value;
     const buyerEmail = form.modalEmail.value;
+
+    if (user.email === buyerEmail) {
+      swal("Sorry", "You Can't apply to your own job.", "warning");
+      return;
+    }
 
     const appliedInfo = {
       appliedEmail: userEmail,
@@ -65,174 +69,156 @@ const CardDetails = () => {
       postDescription: description,
       postingDate,
       deadline,
-      buyerEmail: buyerEmail,
+      buyerEmail,
       status: "",
     };
-    if (user.email === buyerEmail) {
-      swal("Sorry", "You Can't apply your own job.", "warning");
-      return;
-    }
 
-    {
-      try {
-        const response = await fetch(
-          "https://martplace-server.vercel.app/bids",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(appliedInfo),
-          }
-        );
-        const result = await response.json();
+    try {
+      const response = await fetch("https://martplace-server.vercel.app/bids", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appliedInfo),
+      });
+      const result = await response.json();
 
-        if (result.acknowledged) {
-          swal("done", "Job Applied Successfully", "success");
-          refetch();
-        }
-      } catch (error) {
-        console.log(error);
+      if (result.acknowledged) {
+        swal("Success", "Job Applied Successfully", "success");
+        refetch();
       }
-
-      form.reset("");
-      return;
+    } catch (error) {
+      console.error(error);
+      swal("Error", "Failed to apply for job", "error");
     }
+
+    form.reset();
   };
 
   return (
-    <div>
-      <div className="m-3">
-        <Helmet>
-          <title>MartPlace | Job-Details</title>
-        </Helmet>
+    <div className="min-h-screen bg-gray-100 py-8">
+      <Helmet>
+        <title>MartPlace | Job Details</title>
+      </Helmet>
 
-        <div>
-          <div className="max-w-6xl rounded-md  shadow-md my-10 px-4 md:px-10 py-6 mx-auto bg-gray-800 border">
-            <div className="flex flex-col md:flex-row gap-4 justify-between mt-6 mb-2 text-white">
-              <a href="#" className="py-1 font-bold text-md  md:text-lg mr-4">
-                Sallery Range: {salleryStart} $ - ${salleryEnd}
-              </a>
-              <a href="#" className=" py-1 font-bold text-lg  mr-4">
-                {email}
-              </a>
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+              <div>
+                <h2 className="card-title text-3xl font-bold text-primary">
+                  {title}
+                </h2>
+                <div className="badge badge-primary mt-2">{jobCategory}</div>
+              </div>
+              <div className="text-right mt-4 md:mt-0">
+                <p className="text-lg font-semibold">
+                  Salary: ${salleryStart} - ${salleryEnd}
+                </p>
+                <p className="text-gray-600">Posted by: {email}</p>
+              </div>
             </div>
-            <div className="mt-2 flex gap-2 items-center">
-              <h2 className="text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-[#186AE3]">
-                {title}
-              </h2>
+
+            <div className="prose max-w-none mb-8">
+              <p className="text-gray-700">{description}</p>
             </div>
-            <div className="my-3 text-white">{description}</div>
-            <div className="mt-2">
-              <div className="flex justify-end items-center mt-2">
-                <label
-                  htmlFor="applyJobModal"
-                  className="bg-[#186AE3] px-6 py-2 mt-1 rounded-md cursor-pointer text-white"
-                >
-                  Apply Now
-                </label>
-                <input
-                  type="checkbox"
-                  id="applyJobModal"
-                  className="modal-toggle"
-                />
-                <div className="modal">
-                  <div className="modal-box">
-                    <label htmlFor="applyJobModal" className="flex justify-end">
-                      <AiOutlineCloseCircle className="text-4xl"></AiOutlineCloseCircle>
-                    </label>
 
-                    <h3 className="font-bold text-xl text-center">
-                      Apply To The Job
-                    </h3>
-                    <form onSubmit={hanldemodalsubmit}>
-                      <div className="md:flex">
-                        <div className="form-control md:w-full mx-2">
-                          <label className="label ">
-                            <span className="label-text text-lg text-white">
-                              Sallery Range
-                            </span>
-                          </label>
+            <div className="card-actions justify-end">
+              <label
+                htmlFor="applyJobModal"
+                className="btn btn-primary px-8 text-white"
+              >
+                Apply Now
+              </label>
+            </div>
+          </div>
+        </div>
 
-                          <label className="flex items-center">
-                            <input
-                              type="text"
-                              defaultValue={salleryStart}
-                              name="salleryStart"
-                              placeholder="Min $$"
-                              className="input input-bordered w-full"
-                            />
-                            <span className="text-xl font-semibold mx-4">
-                              To
-                            </span>
-                            <input
-                              type="text"
-                              defaultValue={salleryEnd}
-                              name="salleryEnd"
-                              placeholder="Max $$"
-                              className="input input-bordered w-full"
-                            />
-                          </label>
-                        </div>
-                      </div>
-                      <div className="form-control  mx-2">
-                        <label className="label ">
-                          <span className="label-text text-lg text-white">
-                            Job Deadline
-                          </span>
-                        </label>
+        {/* Application Modal */}
+        <input type="checkbox" id="applyJobModal" className="modal-toggle" />
+        <div className="modal">
+          <div className="modal-box max-w-2xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-2xl font-bold">Apply To The Job</h3>
+              <label htmlFor="applyJobModal" className="btn btn-circle btn-sm">
+                <AiOutlineCloseCircle className="text-xl" />
+              </label>
+            </div>
 
-                        <DatePicker
-                          className="input input-bordered w-full"
-                          selected={deadline}
-                          onChange={(date) => setDeadline(date)}
-                        />
-                      </div>
-                      <div className="form-control  mx-2">
-                        <label className="label ">
-                          <span className="label-text text-lg text-white">
-                            User Email
-                          </span>
-                        </label>
-                        <input
-                          className="input input-bordered w-full"
-                          defaultValue={user.email}
-                          type="text"
-                          name="userEmail"
-                          id=""
-                        />
-                      </div>
-                      <div className="form-control  mx-2">
-                        <label className="label ">
-                          <span className="label-text text-lg text-white">
-                            Buyer Email
-                          </span>
-                        </label>
-                        <input
-                          className="input input-bordered w-full"
-                          defaultValue={email}
-                          type="text"
-                          name="modalEmail"
-                          id=""
-                        />
-                      </div>
-                      <div method="dialog" className="flex justify-end">
-                        <button type="submit" className="mt-4">
-                          <label
-                            className="bg-[#186AE3] px-8 py-2 rounded-md cursor-pointer text-white"
-                            htmlFor="applyJobModal"
-                          >
-                            Bid Now
-                          </label>
-                        </button>
-                      </div>
-                    </form>
+            <form onSubmit={handleModalSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Salary Range</span>
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      defaultValue={salleryStart}
+                      name="salleryStart"
+                      placeholder="Min $$"
+                      className="input input-bordered w-full"
+                      readOnly
+                    />
+                    <span className="text-gray-500">to</span>
+                    <input
+                      type="text"
+                      defaultValue={salleryEnd}
+                      name="salleryEnd"
+                      placeholder="Max $$"
+                      className="input input-bordered w-full"
+                      readOnly
+                    />
                   </div>
                 </div>
 
-                {/* modal end */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Job Deadline</span>
+                  </label>
+                  <DatePicker
+                    className="input input-bordered w-full"
+                    selected={deadline}
+                    onChange={(date) => setDeadline(date)}
+                    minDate={new Date()}
+                  />
+                </div>
               </div>
-            </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Your Email</span>
+                  </label>
+                  <input
+                    className="input input-bordered w-full"
+                    defaultValue={user?.email}
+                    type="email"
+                    name="userEmail"
+                    required
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Employer Email</span>
+                  </label>
+                  <input
+                    className="input input-bordered w-full"
+                    defaultValue={email}
+                    type="email"
+                    name="modalEmail"
+                    readOnly
+                  />
+                </div>
+              </div>
+
+              <div className="modal-action">
+                <button type="submit" className="btn btn-primary w-full">
+                  Submit Application
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
